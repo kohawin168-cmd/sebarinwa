@@ -1,61 +1,234 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Promo Blast WhatsApp</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tautkan Perangkat - WhatsApp</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body { background:#f8f9fa; }
+    .card-center { max-width:720px; margin:48px auto; }
+    #qrcode-placeholder { width:170px; height:170px; display:flex; align-items:center; justify-content:center; border:1px dashed #ddd; border-radius:6px; background:#fff; }
+  </style>
 </head>
-<body class="bg-light">
-  <div class="container py-5 text-center">
-    <h1 class="mb-4">Promo Blast WhatsApp (Legal Version)</h1>
+<body>
 
-    <div class="card shadow p-4 mx-auto" style="max-width: 500px;">
-      <h5 class="mb-3">Kirim Pesan Promo</h5>
+  <div class="container">
+    <div class="card card-center shadow-sm p-4">
+      <h3 class="mb-3">Menu Tautkan Perangkat</h3>
+      <p class="text-muted">Klik tombol di bawah untuk membuka WhatsApp Web — lalu pindai QR di layar WhatsApp di perangkat lain (atau login). Setelah tertaut, tekan <strong>Saya sudah menautkan</strong> atau tunggu popup menutup otomatis 79 detik setelah dibuka.</p>
 
-      <div class="mb-3">
-        <label for="whatsappNumber" class="form-label">Nomor WhatsApp Tujuan</label>
-        <input type="tel" id="whatsappNumber" class="form-control" placeholder="Contoh: 6281234567890" required>
+      <div class="row g-3 align-items-center">
+        <div class="col-md-6">
+          <button id="linkBtn" class="btn btn-primary w-100">Tautkan Perangkat (Buka WhatsApp Web)</button>
+        </div>
+
+        <div class="col-md-6">
+          <button id="statusBtn" class="btn btn-outline-secondary w-100" disabled>Status: Belum Tertaut</button>
+        </div>
       </div>
-
-      <div class="mb-3">
-        <label for="message" class="form-label">Pesan (maks. 500 karakter)</label>
-        <textarea id="message" class="form-control" maxlength="500" rows="4"
-          placeholder="Tulis pesan promo kamu di sini..."></textarea>
-      </div>
-
-      <button id="sendBtn" class="btn btn-success w-100">Kirim ke WhatsApp</button>
 
       <hr class="my-4">
 
-      <h6>Login WhatsApp Web</h6>
-      <div id="qrcode" class="d-flex justify-content-center my-3"></div>
-      <p class="text-muted small">Scan barcode ini untuk membuka <a href="https://web.whatsapp.com" target="_blank">WhatsApp Web</a>.</p>
+      <div class="d-flex gap-3 align-items-center">
+        <div id="qrcode-placeholder" aria-hidden="true">
+          <!-- Optional: placeholder visual agar user tahu harus scan di web.whatsapp.com -->
+          <small class="text-muted">Scan di <br> web.whatsapp.com</small>
+        </div>
+
+        <div>
+          <p class="mb-1"><strong>Petunjuk singkat</strong></p>
+          <ol class="small mb-0">
+            <li>Buka tombol <em>Tautkan Perangkat</em> — popup akan membuka <code>https://web.whatsapp.com</code>.</li>
+            <li>Scan QR di popup dengan WhatsApp mobile (atau login via perangkat lain).</li>
+            <li>Jika sudah, kembali ke halaman ini lalu tekan <em>Saya sudah menautkan</em>.</li>
+            <li>Jika tidak menekan, popup akan otomatis menutup setelah 79 detik.</li>
+          </ol>
+        </div>
+      </div>
     </div>
   </div>
 
-  <script>
-    // Generate QR Code menuju WhatsApp Web
-    new QRCode(document.getElementById("qrcode"), {
-      text: "https://web.whatsapp.com/",
-      width: 150,
-      height: 150
-    });
+  <!-- Modal untuk menampilkan popup info dan countdown -->
+  <div class="modal fade" id="linkModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tautkan Perangkat — WhatsApp Web</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <p>Popup WhatsApp Web telah dibuka. Silakan pindai QR dengan aplikasi WhatsApp di ponsel Anda atau login pada perangkat lain.</p>
 
-    // Kirim pesan manual via link resmi
-    document.getElementById("sendBtn").addEventListener("click", function() {
-      const phone = document.getElementById("whatsappNumber").value.trim();
-      const message = encodeURIComponent(document.getElementById("message").value.trim());
-      
-      if (!phone || !message) {
-        alert("Nomor dan pesan wajib diisi!");
-        return;
+          <div class="mb-3">
+            <label class="form-label">Waktu tersisa sebelum popup ditutup otomatis:</label>
+            <div class="d-flex align-items-center gap-2">
+              <div class="progress flex-grow-1" style="height:12px;">
+                <div id="countdownBar" class="progress-bar" role="progressbar" style="width:100%"></div>
+              </div>
+              <div><span id="countdownText">79</span>s</div>
+            </div>
+          </div>
+
+          <div class="alert alert-info small mb-0">
+            Karena alasan keamanan browser, halaman ini <strong>tidak bisa</strong> memverifikasi langsung apakah perangkat benar-benar tertaut. Gunakan tombol <em>Saya sudah menautkan</em> jika sudah selesai.
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button id="confirmedBtn" type="button" class="btn btn-success">Saya sudah menautkan</button>
+          <button id="closeModalBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal / Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    (function () {
+      const linkBtn = document.getElementById('linkBtn');
+      const statusBtn = document.getElementById('statusBtn');
+      const confirmedBtn = document.getElementById('confirmedBtn');
+      const countdownText = document.getElementById('countdownText');
+      const countdownBar = document.getElementById('countdownBar');
+
+      const modalEl = document.getElementById('linkModal');
+      const bsModal = new bootstrap.Modal(modalEl, { backdrop: 'static' });
+
+      let popup = null;
+      let countdown = 79; // detik
+      let countdownTimer = null;
+      let closedChecker = null;
+
+      function openWhatsAppPopup() {
+        // popup window features - usahakan terpusat, ukuran wajar
+        const w = 1000, h = 700;
+        const left = (screen.width/2) - (w/2);
+        const top = (screen.height/2) - (h/2);
+        const features = `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${w},height=${h},top=${top},left=${left}`;
+
+        try {
+          popup = window.open('https://web.whatsapp.com/', 'wa_popup', features);
+          if (!popup) {
+            // popup diblokir
+            alert('Popup diblokir oleh browser. Izinkan popup, atau klik link ini untuk membuka: https://web.whatsapp.com/');
+            return false;
+          }
+        } catch (err) {
+          alert('Gagal membuka popup: ' + String(err));
+          return false;
+        }
+
+        // Tampilkan modal dengan countdown
+        countdown = 79;
+        updateCountdownUI();
+        bsModal.show();
+
+        // Mulai interval pengurangan
+        if (countdownTimer) clearInterval(countdownTimer);
+        countdownTimer = setInterval(() => {
+          countdown--;
+          updateCountdownUI();
+          if (countdown <= 0) {
+            closePopupAndCleanup();
+          }
+        }, 1000);
+
+        // Cek apakah user menutup popup manual; jika ya, hentikan modal/interval
+        if (closedChecker) clearInterval(closedChecker);
+        closedChecker = setInterval(() => {
+          if (!popup || popup.closed) {
+            clearInterval(closedChecker);
+            // Kalau popup ditutup oleh user, hentikan countdown
+            if (countdownTimer) {
+              clearInterval(countdownTimer);
+              countdownTimer = null;
+            }
+            // tutup modal jika masih terbuka
+            try { bsModal.hide(); } catch(e){}
+          }
+        }, 700);
+
+        return true;
       }
 
-      const url = `https://wa.me/${phone}?text=${message}`;
-      window.open(url, "_blank");
-    });
+      function updateCountdownUI() {
+        countdownText.textContent = countdown;
+        const pct = Math.max(0, (countdown / 79) * 100);
+        countdownBar.style.width = pct + '%';
+      }
+
+      function closePopupAndCleanup(markConnected = false) {
+        // tutup popup jika masih terbuka
+        try {
+          if (popup && !popup.closed) popup.close();
+        } catch (e) { /* ignore cross-window errors */ }
+
+        // hentikan timer/cek
+        if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+        if (closedChecker) { clearInterval(closedChecker); closedChecker = null; }
+
+        // sembunyikan modal
+        try { bsModal.hide(); } catch(e){}
+
+        // update status UI
+        if (markConnected) {
+          statusBtn.textContent = 'Status: Tertaut';
+          statusBtn.classList.remove('btn-outline-secondary');
+          statusBtn.classList.add('btn-success');
+          statusBtn.disabled = false;
+        } else {
+          // jika auto-closed tapi belum dikonfirmasi, tandai sebagai "Perlu Konfirmasi"
+          statusBtn.textContent = 'Status: Perlu Konfirmasi';
+          statusBtn.classList.remove('btn-outline-secondary');
+          statusBtn.classList.add('btn-warning');
+          statusBtn.disabled = false;
+        }
+
+        popup = null;
+      }
+
+      // Event listeners
+      linkBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        // Buka popup dan modal
+        if (!openWhatsAppPopup()) {
+          // jika gagal buka popup, jangan lakukan apa-apa lagi
+        }
+      });
+
+      confirmedBtn.addEventListener('click', function () {
+        // pengguna mengonfirmasi bahwa perangkat sudah tertaut
+        closePopupAndCleanup(true);
+      });
+
+      // Jika user menutup modal (tombol X atau backdrop), hentikan timer dan biarkan popup tetap (atau tutup juga)
+      modalEl.addEventListener('hidden.bs.modal', function () {
+        // jika modal ditutup tanpa konfirmasi, biarkan popup tetap terbuka tapi hentikan interval
+        if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+        if (closedChecker) { clearInterval(closedChecker); closedChecker = null; }
+        // tidak otomatis menutup popup di sini (biarkan user/timer menutupnya)
+      });
+
+      // Sediakan tombol status untuk reset (opsional)
+      statusBtn.addEventListener('click', function () {
+        // reset ulang status kembali ke belum tertaut
+        statusBtn.textContent = 'Status: Belum Tertaut';
+        statusBtn.classList.remove('btn-success','btn-warning');
+        statusBtn.classList.add('btn-outline-secondary');
+        statusBtn.disabled = true;
+      });
+
+      // safety unload: pastikan popup ditutup saat meninggalkan halaman
+      window.addEventListener('beforeunload', function () {
+        try { if (popup && !popup.closed) popup.close(); } catch(e){}
+      });
+    })();
   </script>
 </body>
 </html>
