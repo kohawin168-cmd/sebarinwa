@@ -109,6 +109,8 @@ function simpanTransaksi(){
     bank.saldo = bank.saldo + jumlah - fee;
   }
 
+    let laba = admin - fee;
+
   data.trx.push({
     jenis,
     bank: bank.nama,
@@ -116,6 +118,7 @@ function simpanTransaksi(){
     jumlah,
     admin,
     fee,
+    laba,
     saldoAwal,
     saldoAkhir: bank.saldo
   });
@@ -138,9 +141,11 @@ function render(){
 }
 
 function exportExcel(){
-  let csv='Jenis,Bank,Tujuan,Jumlah,Admin,Fee,Saldo Awal,Saldo Akhir\n';
+  let csv='Jenis,Bank,Tujuan,Jumlah,Admin,Fee,Laba,Saldo Awal,Saldo Akhir
+';
   data.trx.forEach(t=>{
-    csv+=`${t.jenis},${t.bank},${t.tujuan},${t.jumlah},${t.admin},${t.fee},${t.saldoAwal},${t.saldoAkhir}\n`;
+    csv+=`${t.jenis},${t.bank},${t.tujuan},${t.jumlah},${t.admin},${t.fee},${t.laba},${t.saldoAwal},${t.saldoAkhir}
+`;
   });
   let blob=new Blob([csv],{type:'text/csv'});
   let a=document.createElement('a');
@@ -162,4 +167,4 @@ function showPage(p){
 
 render();
 </script></body>
-</html>
+  </html>
