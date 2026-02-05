@@ -101,15 +101,16 @@ function simpanTransaksi(){
 
   // LOGIKA TRANSAKSI
   if(jenis === 'TRANSFER'){
+    // Transfer
     data.laci += (jumlah + admin);
     bank.saldo = bank.saldo - jumlah - fee;
   }else{
-    // TARIK TUNAI (EDC / NON EDC)
+    // Tarik Tunai (EDC / NON EDC)
     data.laci -= jumlah;
-    bank.saldo = bank.saldo + jumlah - fee;
+    bank.saldo = bank.saldo + jumlah + admin + fee;
   }
 
-    let laba = admin - fee;
+  let laba = admin - fee;
 
   data.trx.push({
     jenis,
@@ -167,4 +168,4 @@ function showPage(p){
 
 render();
 </script></body>
-  </html>
+</html>
