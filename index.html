@@ -4,109 +4,153 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MINI ATM</title>
   <style>
-    body { font-family: Arial, sans-serif; background:#f4f6f8; margin:0; }
-    header { background:#0d6efd; color:#fff; padding:16px; text-align:center; }
-    .container { padding:12px; }
-    .card { background:#fff; border-radius:12px; padding:14px; margin-bottom:12px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
-    h3 { margin-top:0; }
-    input, select, button { width:100%; padding:10px; margin-top:6px; border-radius:8px; border:1px solid #ccc; }
-    button { background:#0d6efd; color:#fff; border:none; font-weight:bold; }
-    button.secondary { background:#198754; }
-    .row { display:flex; gap:8px; }
-    .row > div { flex:1; }
-    .nav { position:fixed; bottom:0; left:0; right:0; background:#fff; display:flex; border-top:1px solid #ddd; }
-    .nav button { flex:1; border-radius:0; }
-    .hidden { display:none; }
+    body{font-family:Arial,Helvetica,sans-serif;background:#f2f4f7;margin:0}
+    header{background:#0d6efd;color:#fff;padding:16px;text-align:center}
+    .container{padding:12px 12px 70px}
+    .card{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+    h3{margin:0 0 10px}
+    input,select,button{width:100%;padding:10px;margin-top:6px;border-radius:10px;border:1px solid #ccc}
+    button{background:#0d6efd;color:#fff;border:none;font-weight:600}
+    button.secondary{background:#198754}
+    ul{padding-left:18px}
+    .nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #ddd}
+    .nav button{flex:1;border-radius:0}
+    .hidden{display:none}
+    .small{font-size:13px;color:#555}
   </style>
 </head>
 <body>
 <header>
   <h2>MINI ATM</h2>
   <div id="totalAset">Total Aset: Rp 0</div>
-</header><div class="container">  <div id="page-beranda">
-    <div class="card">
-      <h3>Uang Laci</h3>
-      <input type="number" id="uangLaci" placeholder="Uang Laci" />
-      <button onclick="simpanUangLaci()">Simpan</button>
-    </div><div class="card">
-  <h3>Akun Bank</h3>
-  <input id="namaBank" placeholder="Nama Bank" />
-  <input type="number" id="saldoBank" placeholder="Saldo Awal" />
-  <button onclick="tambahBank()">Tambah Akun Bank</button>
-  <ul id="listBank"></ul>
-</div>
+</header><div class="container"><!-- BERANDA --><div id="page-beranda">
+  <div class="card">
+    <h3>Uang Laci</h3>
+    <input type="number" id="uangLaci" placeholder="Masukkan uang laci" />
+    <button onclick="simpanLaci()">Simpan</button>
+  </div>  <div class="card">
+    <h3>Akun Bank</h3>
+    <input id="namaBank" placeholder="Nama Bank" />
+    <input type="number" id="saldoBank" placeholder="Saldo Awal" />
+    <button onclick="tambahBank()">Tambah Akun Bank</button>
+    <ul id="listBank"></ul>
+  </div>
+</div><!-- TRANSAKSI --><div id="page-transaksi" class="hidden">
+  <div class="card">
+    <h3>Input Transaksi</h3><select id="jenisTransaksi">
+  <option value="TRANSFER">Transfer</option>
+  <option value="TARIK_EDC">Tarik Tunai EDC</option>
+  <option value="TARIK_NON_EDC">Tarik Tunai Non EDC</option>
+</select>
 
-  </div>  <div id="page-transaksi" class="hidden">
-    <div class="card">
-      <h3>Transaksi</h3>
-      <select id="jenisTransaksi">
-        <option value="Transfer">Transfer</option>
-        <option value="Tarik Tunai EDC">Tarik Tunai EDC</option>
-        <option value="Tarik Tunai Non EDC">Tarik Tunai Non EDC</option>
-      </select><select id="bankDipakai"></select>
-  <input type="number" id="jumlah" placeholder="Jumlah" />
-  <input id="bankTujuan" placeholder="Bank Tujuan (manual)" />
-  <input type="number" id="admin" placeholder="Admin" />
-  <input type="number" id="fee" placeholder="Fee" />
-  <button onclick="simpanTransaksi()">Simpan Transaksi</button>
-</div>
+<select id="bankDipakai"></select>
 
-<div class="card">
-  <h3>Laporan</h3>
-  <button class="secondary" onclick="exportExcel()">Export Excel</button>
-  <button onclick="shareWA()">Share WhatsApp</button>
-  <div id="laporan"></div>
-</div>
+<input type="number" id="jumlah" placeholder="Jumlah Transaksi" />
+<input id="bankTujuan" placeholder="Bank Tujuan (manual)" />
+<input type="number" id="admin" placeholder="Admin (ke laci)" />
+<input type="number" id="fee" placeholder="Fee Bank" />
 
-  </div></div><div class="nav">
+<button onclick="simpanTransaksi()">Simpan Transaksi</button>
+
+  </div>  <div class="card">
+    <h3>Laporan</h3>
+    <div class="small" id="infoLaci"></div>
+    <div class="small" id="infoBank"></div>
+    <hr />
+    <button class="secondary" onclick="exportExcel()">Export Excel</button>
+    <button onclick="shareWA()">Share WhatsApp</button>
+    <div id="laporan"></div>
+  </div>
+</div></div><div class="nav">
   <button onclick="showPage('beranda')">Beranda</button>
   <button onclick="showPage('transaksi')">Transaksi</button>
 </div><script>
-let data = JSON.parse(localStorage.getItem('miniATM')) || { bank:[], laci:0, trx:[] };
+let data = JSON.parse(localStorage.getItem('miniATM')) || { laci:0, bank:[], trx:[] };
 
-function save(){ localStorage.setItem('miniATM', JSON.stringify(data)); hitungAset(); render(); }
+function save(){
+  localStorage.setItem('miniATM', JSON.stringify(data));
+  render();
+}
 
 function hitungAset(){
   let totalBank = data.bank.reduce((a,b)=>a+b.saldo,0);
   document.getElementById('totalAset').innerText = 'Total Aset: Rp ' + (totalBank + data.laci);
 }
 
-function simpanUangLaci(){ data.laci = Number(uangLaci.value); save(); }
+function simpanLaci(){
+  data.laci = Number(uangLaci.value);
+  save();
+}
 
 function tambahBank(){
-  data.bank.push({ nama:namaBank.value, saldo:Number(saldoBank.value) });
-  namaBank.value=''; saldoBank.value=''; save();
+  if(!namaBank.value) return;
+  data.bank.push({nama:namaBank.value, saldo:Number(saldoBank.value)});
+  namaBank.value=''; saldoBank.value='';
+  save();
 }
 
 function simpanTransaksi(){
   let idx = bankDipakai.value;
+  let bank = data.bank[idx];
   let jumlah = Number(document.getElementById('jumlah').value);
   let admin = Number(document.getElementById('admin').value);
   let fee = Number(document.getElementById('fee').value);
+  let jenis = jenisTransaksi.value;
 
-  let bank = data.bank[idx];
   let saldoAwal = bank.saldo;
-  bank.saldo = bank.saldo - jumlah - admin + fee;
 
-  data.trx.push({ jenis:jenisTransaksi.value, jumlah, admin, fee, bank:bank.nama, saldoAwal, saldoAkhir:bank.saldo });
+  // LOGIKA TRANSAKSI
+  if(jenis === 'TRANSFER'){
+    data.laci += (jumlah + admin);
+    bank.saldo = bank.saldo - jumlah - fee;
+  }else{
+    // TARIK TUNAI (EDC / NON EDC)
+    data.laci -= jumlah;
+    bank.saldo = bank.saldo + jumlah - fee;
+  }
+
+  data.trx.push({
+    jenis,
+    bank: bank.nama,
+    tujuan: bankTujuan.value,
+    jumlah,
+    admin,
+    fee,
+    saldoAwal,
+    saldoAkhir: bank.saldo
+  });
+
   save();
 }
 
 function render(){
   listBank.innerHTML = data.bank.map(b=>`<li>${b.nama} : Rp ${b.saldo}</li>`).join('');
   bankDipakai.innerHTML = data.bank.map((b,i)=>`<option value="${i}">${b.nama}</option>`).join('');
-  laporan.innerHTML = data.trx.map(t=>`<div>${t.jenis} | ${t.bank} | ${t.saldoAwal} ➜ ${t.saldoAkhir}</div>`).join('');
+
+  laporan.innerHTML = data.trx.map(t=>
+    `<div>• ${t.jenis} | ${t.bank} | ${t.saldoAwal} ➜ ${t.saldoAkhir}</div>`
+  ).join('');
+
+  infoLaci.innerText = 'Uang Laci: Rp ' + data.laci;
+  infoBank.innerText = 'Total Bank: Rp ' + data.bank.reduce((a,b)=>a+b.saldo,0);
+
+  hitungAset();
 }
 
 function exportExcel(){
-  let csv = 'Jenis,Bank,Jumlah,Admin,Fee,Saldo Awal,Saldo Akhir\n';
-  data.trx.forEach(t=>{ csv+=`${t.jenis},${t.bank},${t.jumlah},${t.admin},${t.fee},${t.saldoAwal},${t.saldoAkhir}\n`; });
-  let blob = new Blob([csv],{type:'text/csv'});
-  let a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='laporan-mini-atm.csv'; a.click();
+  let csv='Jenis,Bank,Tujuan,Jumlah,Admin,Fee,Saldo Awal,Saldo Akhir\n';
+  data.trx.forEach(t=>{
+    csv+=`${t.jenis},${t.bank},${t.tujuan},${t.jumlah},${t.admin},${t.fee},${t.saldoAwal},${t.saldoAkhir}\n`;
+  });
+  let blob=new Blob([csv],{type:'text/csv'});
+  let a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='laporan-mini-atm.csv';
+  a.click();
 }
 
 function shareWA(){
-  let text = data.trx.map(t=>`${t.jenis} ${t.bank} Saldo Akhir: ${t.saldoAkhir}`).join('%0A');
+  let text=data.trx.map(t=>`${t.jenis} ${t.bank} Saldo Akhir: ${t.saldoAkhir}`).join('%0A');
   window.open('https://wa.me/?text='+text);
 }
 
@@ -116,6 +160,6 @@ function showPage(p){
   document.getElementById('page-'+p).classList.remove('hidden');
 }
 
-render(); hitungAset();
+render();
 </script></body>
 </html>
