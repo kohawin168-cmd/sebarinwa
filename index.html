@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Butik Emas Antam LM</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -22,16 +21,18 @@ background:#f5f5f5;
 color:#222;
 }
 
+/* HEADER */
+
 header{
 background:linear-gradient(135deg,#b8860b,#ffd700);
 padding:30px 20px;
 text-align:center;
 color:white;
-box-shadow:0 5px 20px rgba(0,0,0,0.2);
+box-shadow:0 4px 20px rgba(0,0,0,0.2);
 }
 
 header h1{
-font-size:36px;
+font-size:34px;
 font-weight:700;
 }
 
@@ -40,9 +41,11 @@ margin-top:10px;
 font-size:15px;
 }
 
+/* HERO */
+
 .hero{
 background:white;
-padding:50px 20px;
+padding:45px 20px;
 text-align:center;
 }
 
@@ -59,11 +62,15 @@ line-height:1.8;
 color:#555;
 }
 
+/* CONTAINER */
+
 .container{
 max-width:1300px;
 margin:auto;
 padding:30px 20px;
 }
+
+/* PRODUCT */
 
 .products{
 display:grid;
@@ -96,13 +103,13 @@ padding:20px;
 
 .card h3{
 font-size:24px;
-color:#b8860b;
 margin-bottom:10px;
+color:#b8860b;
 }
 
 .desc{
 font-size:14px;
-line-height:1.7;
+line-height:1.8;
 color:#666;
 }
 
@@ -110,6 +117,18 @@ color:#666;
 font-size:24px;
 font-weight:700;
 margin:15px 0;
+}
+
+.badge{
+position:absolute;
+top:15px;
+left:15px;
+background:red;
+color:white;
+padding:8px 12px;
+border-radius:30px;
+font-size:12px;
+font-weight:600;
 }
 
 .btn{
@@ -126,20 +145,10 @@ transition:0.3s;
 }
 
 .btn:hover{
-background:#1faa59;
+background:#1ca851;
 }
 
-.badge{
-position:absolute;
-top:15px;
-left:15px;
-background:red;
-color:white;
-padding:8px 12px;
-border-radius:30px;
-font-size:12px;
-font-weight:600;
-}
+/* ORDER */
 
 .order-section{
 background:white;
@@ -151,8 +160,8 @@ box-shadow:0 5px 20px rgba(0,0,0,0.1);
 
 .order-section h2{
 text-align:center;
-color:#b8860b;
 margin-bottom:25px;
+color:#b8860b;
 }
 
 .form-group{
@@ -180,6 +189,8 @@ height:120px;
 resize:none;
 }
 
+/* TOTAL */
+
 .total-box{
 background:#fff8dc;
 padding:20px;
@@ -193,104 +204,38 @@ font-size:16px;
 }
 
 .total-box h3{
-margin-top:10px;
+margin-top:12px;
 font-size:24px;
 color:#b8860b;
 }
 
-footer{
-background:#111;
-color:white;
-text-align:center;
-padding:25px;
-margin-top:50px;
-}
+/* COUNTDOWN ORDER */
 
-/* POPUP */
-
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:999;
-}
-
-.popup-content{
-background:white;
-padding:30px;
-border-radius:20px;
-max-width:420px;
-width:90%;
-text-align:center;
-position:relative;
-animation:zoom 0.3s ease;
-}
-
-@keyframes zoom{
-from{
-transform:scale(0.7);
-}
-to{
-transform:scale(1);
-}
-}
-
-.close-popup{
-position:absolute;
-top:10px;
-right:15px;
-font-size:28px;
-cursor:pointer;
-font-weight:bold;
-color:#888;
-}
-
-.voucher{
-background:#ffd700;
-padding:16px;
-border-radius:12px;
+.order-timer{
 margin-top:18px;
-font-size:26px;
-font-weight:700;
-letter-spacing:3px;
-}
-
-.countdown-box{
-background:linear-gradient(135deg,#ff0000,#ff7b00);
-color:white;
+background:linear-gradient(135deg,#ff0000,#ff7300);
 padding:18px;
 border-radius:15px;
-margin-top:20px;
 text-align:center;
-box-shadow:0 5px 20px rgba(0,0,0,0.2);
+color:white;
 animation:pulse 1.2s infinite;
 }
 
-.countdown-box h3{
-font-size:22px;
+.order-timer h4{
+font-size:18px;
 margin-bottom:10px;
 }
 
-.countdown-timer{
-font-size:38px;
+.order-time{
+font-size:34px;
 font-weight:700;
 letter-spacing:2px;
-margin:10px 0;
 }
 
-.warning-text{
+.order-warning{
+margin-top:10px;
 font-size:14px;
-line-height:1.8;
-background:rgba(255,255,255,0.15);
-padding:12px;
-border-radius:10px;
-margin-top:12px;
+line-height:1.7;
 }
 
 @keyframes pulse{
@@ -305,6 +250,111 @@ transform:scale(1);
 }
 }
 
+/* FOOTER */
+
+footer{
+background:#111;
+color:white;
+padding:25px;
+text-align:center;
+margin-top:50px;
+}
+
+/* POPUP */
+
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.popup-content{
+background:white;
+width:90%;
+max-width:320px;
+padding:20px;
+border-radius:20px;
+text-align:center;
+position:relative;
+animation:zoom 0.3s ease;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+@keyframes zoom{
+from{
+transform:scale(0.7);
+}
+to{
+transform:scale(1);
+}
+}
+
+.close-popup{
+position:absolute;
+top:8px;
+right:12px;
+font-size:24px;
+font-weight:bold;
+cursor:pointer;
+color:#888;
+}
+
+.popup h2{
+font-size:22px;
+color:#b8860b;
+margin-bottom:10px;
+}
+
+.popup p{
+font-size:14px;
+line-height:1.7;
+color:#555;
+}
+
+.voucher{
+background:#ffd700;
+padding:14px;
+border-radius:12px;
+margin-top:15px;
+font-size:24px;
+font-weight:700;
+letter-spacing:2px;
+}
+
+.popup-timer{
+margin-top:18px;
+background:#ff4d00;
+padding:15px;
+border-radius:15px;
+color:white;
+}
+
+.popup-timer h3{
+font-size:18px;
+margin-bottom:10px;
+}
+
+.popup-count{
+font-size:32px;
+font-weight:700;
+letter-spacing:2px;
+}
+
+.popup-warning{
+font-size:13px;
+margin-top:10px;
+line-height:1.7;
+}
+
+/* MOBILE */
+
 @media(max-width:768px){
 
 header h1{
@@ -313,6 +363,10 @@ font-size:28px;
 
 .hero h2{
 font-size:24px;
+}
+
+.card img{
+height:220px;
 }
 
 }
@@ -330,8 +384,8 @@ font-size:24px;
 <section class="hero">
 <h2>Investasi Emas Aman & Menguntungkan</h2>
 <p>
-Dapatkan emas Antam LM original dengan berbagai pilihan gramasi.
-Cocok untuk investasi, hadiah, maupun tabungan masa depan.
+Dapatkan produk emas Antam LM original dengan berbagai pilihan gramasi.
+Cocok untuk investasi jangka panjang dan tabungan masa depan.
 </p>
 </section>
 
@@ -346,7 +400,7 @@ Cocok untuk investasi, hadiah, maupun tabungan masa depan.
 <div class="card-body">
 <h3>Emas Antam 0.5 Gram</h3>
 <p class="desc">
-Cocok untuk pemula yang ingin mulai investasi emas dengan modal ringan.
+Pilihan tepat untuk pemula yang ingin mulai investasi emas dengan modal ringan.
 </p>
 <p class="price">Rp 1.150.000</p>
 <button class="btn" onclick="selectProduct('Emas Antam 0.5 Gram',1150000)">Pesan Sekarang</button>
@@ -372,7 +426,7 @@ Emas Antam LM original dengan sertifikat resmi dan mudah dijual kembali.
 <div class="card-body">
 <h3>Emas Antam 2 Gram</h3>
 <p class="desc">
-Pilihan investasi emas yang stabil dan cocok untuk tabungan masa depan.
+Pilihan investasi emas yang stabil dan aman untuk masa depan.
 </p>
 <p class="price">Rp 4.100.000</p>
 <button class="btn" onclick="selectProduct('Emas Antam 2 Gram',4100000)">Pesan Sekarang</button>
@@ -385,7 +439,7 @@ Pilihan investasi emas yang stabil dan cocok untuk tabungan masa depan.
 <div class="card-body">
 <h3>Emas Antam 5 Gram</h3>
 <p class="desc">
-Emas batangan Antam LM 5 gram dengan kemurnian tinggi dan desain elegan.
+Emas Antam 5 gram dengan kualitas premium dan kemurnian tinggi.
 </p>
 <p class="price">Rp 10.000.000</p>
 <button class="btn" onclick="selectProduct('Emas Antam 5 Gram',10000000)">Pesan Sekarang</button>
@@ -398,7 +452,7 @@ Emas batangan Antam LM 5 gram dengan kemurnian tinggi dan desain elegan.
 <div class="card-body">
 <h3>Emas Antam 10 Gram</h3>
 <p class="desc">
-Pilihan favorit investor emas dengan nilai investasi lebih tinggi.
+Pilihan favorit investor dengan nilai investasi yang lebih tinggi.
 </p>
 <p class="price">Rp 19.800.000</p>
 <button class="btn" onclick="selectProduct('Emas Antam 10 Gram',19800000)">Pesan Sekarang</button>
@@ -411,7 +465,7 @@ Pilihan favorit investor emas dengan nilai investasi lebih tinggi.
 <div class="card-body">
 <h3>Emas Antam 20 Gram</h3>
 <p class="desc">
-Investasi emas premium dengan kualitas terpercaya dan harga kompetitif.
+Investasi emas premium dengan harga kompetitif dan kualitas terpercaya.
 </p>
 <p class="price">Rp 39.400.000</p>
 <button class="btn" onclick="selectProduct('Emas Antam 20 Gram',39400000)">Pesan Sekarang</button>
@@ -424,7 +478,7 @@ Investasi emas premium dengan kualitas terpercaya dan harga kompetitif.
 <div class="card-body">
 <h3>Emas Antam 30 Gram</h3>
 <p class="desc">
-Emas Antam 30 gram untuk investasi bernilai tinggi dan stabil.
+Investasi emas bernilai tinggi untuk perlindungan aset jangka panjang.
 </p>
 <p class="price">Rp 58.900.000</p>
 <button class="btn" onclick="selectProduct('Emas Antam 30 Gram',58900000)">Pesan Sekarang</button>
@@ -437,7 +491,7 @@ Emas Antam 30 gram untuk investasi bernilai tinggi dan stabil.
 <div class="card-body">
 <h3>Emas Antam 50 Gram</h3>
 <p class="desc">
-Pilihan terbaik untuk investasi besar dengan potensi keuntungan jangka panjang.
+Pilihan terbaik untuk investasi besar dengan potensi keuntungan maksimal.
 </p>
 <p class="price">Rp 98.000.000</p>
 <button class="btn" onclick="selectProduct('Emas Antam 50 Gram',98000000)">Pesan Sekarang</button>
@@ -447,6 +501,7 @@ Pilihan terbaik untuk investasi besar dengan potensi keuntungan jangka panjang.
 </div>
 
 <!-- FORM -->
+
 <div class="order-section">
 
 <h2>Form Pemesanan</h2>
@@ -474,9 +529,28 @@ Pilihan terbaik untuk investasi besar dengan potensi keuntungan jangka panjang.
 </div>
 
 <div class="total-box">
+
 <p>Harga Produk : <span id="harga">Rp 0</span></p>
+
 <p>Diskon Voucher : <span id="diskon">Rp 0</span></p>
+
 <h3>Total Bayar : <span id="total">Rp 0</span></h3>
+
+<div class="order-timer">
+
+<h4>⚠ Waktu Promo Diskon</h4>
+
+<div class="order-time" id="orderCountdown">
+30:00
+</div>
+
+<div class="order-warning">
+Hanya untuk kamu yang terpilih 🎉<br>
+Segera lakukan pemesanan dan pembayaran sebelum voucher berakhir.
+</div>
+
+</div>
+
 </div>
 
 <button class="btn" onclick="sendWhatsApp()">
@@ -503,23 +577,21 @@ Kirim Pesanan ke WhatsApp
 
 <p>
 Selamat 🎉<br>
-Kamu terpilih mendapatkan voucher diskon spesial hari ini.
+Kamu terpilih mendapatkan voucher spesial hari ini.
 </p>
 
 <div class="voucher" id="voucherCode"></div>
 
-<div class="countdown-box">
+<div class="popup-timer">
 
-<h3>⚠ Promo Eksklusif Terbatas</h3>
+<h3>Promo Berakhir Dalam</h3>
 
-<div class="countdown-timer" id="countdown">
+<div class="popup-count" id="popupCountdown">
 30:00
 </div>
 
-<div class="warning-text">
-Hanya untuk kamu yang terpilih 🎉<br><br>
-Voucher diskon 20% ini akan hangus otomatis setelah waktu habis.
-Segera lakukan pemesanan dan pembayaran sekarang juga sebelum promo berakhir.
+<div class="popup-warning">
+Voucher akan hangus otomatis setelah waktu habis.
 </div>
 
 </div>
@@ -556,6 +628,8 @@ produkSelect.appendChild(option);
 
 });
 
+// PILIH PRODUK
+
 function selectProduct(nama,harga){
 
 document.getElementById("produk").value =
@@ -574,7 +648,8 @@ behavior:'smooth'
 
 function generateVoucher(){
 
-const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const chars =
+'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 let result = '';
 
@@ -592,13 +667,15 @@ return result;
 
 const voucherCode = generateVoucher();
 
-document.getElementById("voucherCode").innerText = voucherCode;
+document.getElementById("voucherCode").innerHTML =
+voucherCode;
 
 // CLOSE POPUP
 
 function closePopup(){
 
-document.getElementById("popupVoucher").style.display = "none";
+document.getElementById("popupVoucher").style.display =
+"none";
 
 }
 
@@ -606,7 +683,8 @@ document.getElementById("popupVoucher").style.display = "none";
 
 function updateTotal(){
 
-const index = document.getElementById("produk").value;
+const index =
+document.getElementById("produk").value;
 
 if(index === ""){
 return;
@@ -629,13 +707,13 @@ diskon = harga * 0.20;
 
 const total = harga - diskon;
 
-document.getElementById("harga").innerText =
+document.getElementById("harga").innerHTML =
 "Rp " + harga.toLocaleString('id-ID');
 
-document.getElementById("diskon").innerText =
+document.getElementById("diskon").innerHTML =
 "Rp " + diskon.toLocaleString('id-ID');
 
-document.getElementById("total").innerText =
+document.getElementById("total").innerHTML =
 "Rp " + total.toLocaleString('id-ID');
 
 }
@@ -647,11 +725,14 @@ document.getElementById("voucherInput")
 
 function sendWhatsApp(){
 
-const nama = document.getElementById("nama").value;
+const nama =
+document.getElementById("nama").value;
 
-const alamat = document.getElementById("alamat").value;
+const alamat =
+document.getElementById("alamat").value;
 
-const index = document.getElementById("produk").value;
+const index =
+document.getElementById("produk").value;
 
 const voucher =
 document.getElementById("voucherInput").value;
@@ -685,8 +766,9 @@ const pesan =
 `Produk : ${produk.nama}%0A` +
 `Harga : Rp ${harga.toLocaleString('id-ID')}%0A` +
 `Diskon : Rp ${diskon.toLocaleString('id-ID')}%0A` +
-`Total Bayar : Rp ${total.toLocaleString('id-ID')}%0A%0A` +
-`Kode Voucher : ${voucher}`;
+`Total Bayar : Rp ${total.toLocaleString('id-ID')}%0A` +
+`Kode Voucher : ${voucher}%0A%0A` +
+`Mohon info pembayaran 🙏`;
 
 window.open(
 `https://wa.me/6285156375253?text=${pesan}`,
@@ -695,12 +777,15 @@ window.open(
 
 }
 
-// COUNTDOWN 30 MENIT
+// COUNTDOWN
 
 let timeLeft = 30 * 60;
 
-const countdownElement =
-document.getElementById("countdown");
+const popupCountdown =
+document.getElementById("popupCountdown");
+
+const orderCountdown =
+document.getElementById("orderCountdown");
 
 const countdownInterval = setInterval(function(){
 
@@ -712,7 +797,10 @@ minutes = minutes < 10 ? "0" + minutes : minutes;
 
 seconds = seconds < 10 ? "0" + seconds : seconds;
 
-countdownElement.innerHTML =
+popupCountdown.innerHTML =
+`${minutes}:${seconds}`;
+
+orderCountdown.innerHTML =
 `${minutes}:${seconds}`;
 
 timeLeft--;
@@ -721,7 +809,9 @@ if(timeLeft < 0){
 
 clearInterval(countdownInterval);
 
-countdownElement.innerHTML = "EXPIRED";
+popupCountdown.innerHTML = "EXPIRED";
+
+orderCountdown.innerHTML = "EXPIRED";
 
 document.getElementById("voucherCode")
 .innerHTML = "VOUCHER HABIS";
@@ -738,4 +828,4 @@ alert("Voucher diskon telah berakhir");
 </script>
 
 </body>
-</html>
+  </html>
